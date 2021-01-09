@@ -1,0 +1,32 @@
+--------- frontend 
+
+npx create-nuxt-app spot2rave
+
+create-nuxt-app v3.4.0
+✨  Generating Nuxt.js project in spot2rave
+? Project name: spot2rave
+? Programming language: JavaScript
+? Package manager: Npm
+? UI framework: Bootstrap Vue
+? Nuxt.js modules: (Press <space> to select, <a> to toggle all, <i> to invert selection)Axios, Progressive Web App (PWA), Content
+? Linting tools: ESLint, Prettier, Lint staged files
+? Testing framework: None
+? Rendering mode: Single Page App
+? Deployment target: Server (Node.js hosting)
+? Development tools: (Press <space> to select, <a> to toggle all, <i> to invert selection)
+? Continuous integration: None
+? Version control system: Git
+
+npm run dev
+
+npm install request
+
+--------- backend
+
+https://blog.logrocket.com/build-an-isomorphic-application-with-nuxt-js-and-node/
+get the backend folder structure here
+
+npm init 
+npm install nodemon express cors request body-parser morgan querystring request --save
+npx nodemon index.js
+
