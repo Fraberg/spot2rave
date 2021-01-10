@@ -9,6 +9,7 @@ const path = require("path");
 // adds
 let request = require("request");
 let querystring = require("querystring");
+require('dotenv').config();
 
 // 2 ------- setup
 const app = express();
@@ -60,9 +61,7 @@ app.get("/callback", function(req, res) {
         "Basic " +
         new Buffer.alloc(
           65,
-          "71a3a5397b9840098bdde0bddd938121" +
-            ":" +
-            "84a667332cba491981767834358ed790"
+          process.env.SPOTIFY_CLIENT_ID + ":" + process.env.SPOTIFY_SECRET_ID
         ).toString("base64")
     },
     json: true
@@ -88,25 +87,25 @@ app.get("/callback", function(req, res) {
     };
 
     // use the access token to access the Spotify Web API
-    request.get(topOptions, function(error, response, body) {
-      console.log("response.statusCode:", response.statusCode);
-      if (error) {
-        console.log("error:", error);
-      } else {
-        // console.log("body:", body);
-        for (let i = 0; i < body.items.length; i++) {
-          console.log(i, "------");
-          // console.log(Object.keys(body.items[i]));
-          console.log(body.items[i].name);
-          console.log(body.items[i].popularity);
-          console.log(body.items[i].type);
-          console.log(body.items[i].album);
-          console.log(body.items[i].href);
-          console.log(body.items[i].track_number);
-          console.log(body.items[i].artists);
-        }
-      }
-    });
+    // request.get(topOptions, function(error, response, body) {
+    //   console.log("response.statusCode:", response.statusCode);
+    //   if (error) {
+    //     console.log("error:", error);
+    //   } else {
+    //     // console.log("body:", body);
+    //     for (let i = 0; i < body.items.length; i++) {
+    //       console.log(i, "------");
+    //       // console.log(Object.keys(body.items[i]));
+    //       console.log(body.items[i].name);
+    //       console.log(body.items[i].popularity);
+    //       console.log(body.items[i].type);
+    //       console.log(body.items[i].album);
+    //       console.log(body.items[i].href);
+    //       console.log(body.items[i].track_number);
+    //       console.log(body.items[i].artists);
+    //     }
+    //   }
+    // });
 
     let uri = "http://localhost:3000/results";
     res.redirect(uri + "?access_token=" + access_token);

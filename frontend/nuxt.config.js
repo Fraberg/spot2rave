@@ -26,6 +26,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/composition-api',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -47,5 +48,17 @@ export default {
   content: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    extend(config, ctx) {
+      config.module.rules.push({
+        enforce: "pre",
+        test: /\.(js|vue)$/,
+        loader: "eslint-loader",
+        exclude: /(node_modules)/,
+        options: {
+          fix: true
+        }
+      })
+    }
+  },
 }
