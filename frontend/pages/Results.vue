@@ -3,23 +3,25 @@
     <div>
       <Logo />
       <h1 class="title">spot2rave</h1>
-      <div class="results">
+      <span v-if="isLoading"></span>
+      <div v-else class="results">
         <!-- <p>params: {{ params }}</p> -->
         <!-- <p>topTracks: {{ topTracks }}</p> -->
         <div
           v-for="(top, index) in topTracks"
           :key="top.index"
-          class="top"
+          class="top flexRowCenter"
           :item="top"
           :index="index"
         >
           <!-- <p>{{ top.id }}</p> -->
-          <p class="top-index">{{ index + 1 }}</p>
-          <img class="top-image" :src="top.image" />
-          <p class="top-name">{{ top.name }}</p>
-          <p class="top-artists">{{ top.artists }}</p>
-          <p class="top-popularity">{{ top.popularity }}</p>
-          <p class="top-artists">{{ top.artists }}</p>
+          <p class="flexRowCenter index">{{ index + 1 }}</p>
+          <img class="flexRowCenter image" :src="top.image" />
+          <div class="flexColumnCenter name-artists">
+            <p class="artists">{{ top.artists.join(', ') }}</p>
+            <p class="name">{{ top.name }}</p>
+          </div>
+          <p class="flexRowCenter popularity">{{ top.popularity }}</p>
         </div>
       </div>
     </div>
@@ -57,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -72,43 +74,53 @@ export default {
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 5rem;
   color: #35495e;
   letter-spacing: 1px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
 .results {
   padding-top: 15px;
+  width: 100vw;
 }
 
-.top {
+/* --------------- */
+p {
+  margin: 0px;
+  font-size: 0.7rem;
+  font-weight: lighter;
+}
+.flexRowCenter {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
+  align-items: center;
+  vertical-align: middle;
 }
-.top-index {
-  width: auto;
+.flexColumnCenter {
+  justify-content: left;
 }
-.top-image {
-  width: auto;
-}
-.top-name {
-  width: auto;
-}
-.top-artists {
-  width: auto;
-}
-.top-popularity {
-  width: auto;
-}
-.top-artists {
-  width: auto;
+.top {
+  margin: 10px 0px;
+  padding: 10px;
+  .index {
+    width: 20px;
+  }
+  .image {
+    width: 50px;
+    margin-right: 5px;
+  }
+  .name-artists {
+    width: 200px;
+    text-align: left;
+    .artists {
+      font-weight: normal;
+    }
+    .name {
+      font-weight: bold;
+    }
+  }
+  .popularity {
+    width: 50px;
+  }
 }
 </style>

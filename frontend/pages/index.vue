@@ -4,21 +4,44 @@
       <Logo />
       <h1 class="title">spot2rave</h1>
       <div class="links">
-        <a
-          href="http://localhost:8888/login"
+        <!-- <NuxtLink
           target="_blank"
           rel="noopener noreferrer"
           class="button--green"
+          @click="goToLogin()"
         >
           Connect with Spotify
-        </a>
+        </NuxtLink> -->
+        <!-- <a
+          href="/login"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button--green"
+          @click="goToLogin()"
+        >
+          Connect with Spotify
+        </a> -->
+        <div class="button--green" @click="goToLogin()">
+          Connect with Spotify
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import SpotifyService from '@/service/SpotifyService'
+
+export default {
+  setup() {
+    async function goToLogin() {
+      await SpotifyService.initLogin()
+    }
+    return {
+      goToLogin,
+    }
+  },
+}
 </script>
 
 <style>
@@ -36,17 +59,9 @@ export default {}
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 5rem;
   color: #35495e;
   letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
 }
 
 .links {

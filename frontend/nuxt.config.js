@@ -1,3 +1,5 @@
+// const path = require('path');
+
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
@@ -10,7 +12,10 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap' }
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -42,7 +47,7 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: { baseURL: process.env.BASE_URL || 'http://localhost:8888' },
 
   // Content module configuration (https://go.nuxtjs.dev/config-content)
   content: {},
@@ -61,4 +66,13 @@ export default {
       })
     }
   },
+
+  // progress bar
+  loading: { color: '#39b982' },
+
+  // client ?
+  server: { port: process.env.CLIENT_PORT || 8000 },
+
+  // https://bithacker.dev/use-express-with-nuxt-js
+  serverMiddleware: [ '~/api/index.js' ],
 }

@@ -33,8 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use('/api', api);
 // *************************************************
 let redirect_uri = "http://localhost:8888/callback";
-
-app.get("/login", function(req, res) {
+app.get("/api/login", function(req, res) {
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -45,9 +44,8 @@ app.get("/login", function(req, res) {
       })
   );
 });
-
-app.get("/callback", function(req, res) {
-  // 1 ------ auth
+app.get("/api/callback", function(req, res) {
+  // 1 ------ get token
   let code = req.query.code || null;
   let authOptions = {
     url: "https://accounts.spotify.com/api/token",
@@ -69,45 +67,9 @@ app.get("/callback", function(req, res) {
   let access_token;
   request.post(authOptions, function(error, response, body) {
     access_token = body.access_token;
-    console.log("access_token:", access_token);
-    // let uri = "http://localhost:3000/results";
-    // res.redirect(uri + "?access_token=" + access_token);
-
-    // 2 ------ get data
-    const options = {
-      url: "https://api.spotify.com/v1/me",
-      headers: { Authorization: "Bearer " + access_token },
-      json: true
-    };
-
-    const topOptions = {
-      url: "https://api.spotify.com/v1/me/top/tracks",
-      headers: { Authorization: "Bearer " + access_token },
-      json: true
-    };
-
-    // use the access token to access the Spotify Web API
-    // request.get(topOptions, function(error, response, body) {
-    //   console.log("response.statusCode:", response.statusCode);
-    //   if (error) {
-    //     console.log("error:", error);
-    //   } else {
-    //     // console.log("body:", body);
-    //     for (let i = 0; i < body.items.length; i++) {
-    //       console.log(i, "------");
-    //       // console.log(Object.keys(body.items[i]));
-    //       console.log(body.items[i].name);
-    //       console.log(body.items[i].popularity);
-    //       console.log(body.items[i].type);
-    //       console.log(body.items[i].album);
-    //       console.log(body.items[i].href);
-    //       console.log(body.items[i].track_number);
-    //       console.log(body.items[i].artists);
-    //     }
-    //   }
-    // });
-
-    let uri = "http://localhost:3000/results";
+    // console.log("access_token:", access_token);
+    // 2 ------ send token back to front-end
+    let uri = `http://localhost:${process.env.CLIENT_PORT}/results`;
     res.redirect(uri + "?access_token=" + access_token);
   });
 });
@@ -115,8 +77,17 @@ app.get("/callback", function(req, res) {
 
 // middleware logger
 app.use(morgan("dev"));
-// some stuff we need
-app.use("/public", express.static(path.join(__dirname, "public")));
+
+// Production
+if (process.env.NODE_ENV === 'production') {
+  // static folder
+  app.use(express.static(__dirname + '/public/'));
+  // handle SPA
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+} else {
+  // some stuff we need
+  app.use("/public", express.static(path.join(__dirname, "public")));
+}
 
 // 3 ------- finally connect
 app.listen(8888, () => {
