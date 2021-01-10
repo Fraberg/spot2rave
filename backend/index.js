@@ -32,8 +32,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // routes
 // app.use('/api', api);
 // *************************************************
-let redirect_uri = "http://localhost:8888/callback";
-app.get("/api/login", function(req, res) {
+let redirect_uri = "http://localhost:8888/api/spotify/callback";
+app.get("/api/spotify/login", function(req, res) {
+  console.log('/login')
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -44,7 +45,8 @@ app.get("/api/login", function(req, res) {
       })
   );
 });
-app.get("/api/callback", function(req, res) {
+app.get("/api/spotify/callback", function(req, res) {
+  console.log('/callback')
   // 1 ------ get token
   let code = req.query.code || null;
   let authOptions = {
@@ -69,7 +71,8 @@ app.get("/api/callback", function(req, res) {
     access_token = body.access_token;
     // console.log("access_token:", access_token);
     // 2 ------ send token back to front-end
-    let uri = `http://localhost:${process.env.CLIENT_PORT}/results`;
+    let uri = `http://localhost:${process.env.PORT}/results`;
+    console.log('redirect uri:', uri)
     res.redirect(uri + "?access_token=" + access_token);
   });
 });

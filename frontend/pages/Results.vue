@@ -5,8 +5,6 @@
       <h1 class="title">spot2rave</h1>
       <span v-if="isLoading"></span>
       <div v-else class="results">
-        <!-- <p>params: {{ params }}</p> -->
-        <!-- <p>topTracks: {{ topTracks }}</p> -->
         <div
           v-for="(top, index) in topTracks"
           :key="top.index"

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-const initEndpoint = `${process.env.BASE_URL}/login`
 const topTracksEndpoint = 'https://api.spotify.com/v1/me/top/tracks'
 const mock = {
   items: [
@@ -2182,21 +2181,6 @@ const mock = {
 }
 
 class SpotifyService {
-  static initLogin() {
-    console.log('SpotifyService | initLogin')
-    console.log('initEndpoint:', initEndpoint)
-    return new Promise((resolve, reject) => {
-      axios
-        .get(initEndpoint)
-        .then((res) => {
-          resolve(true)
-        })
-        .catch((err) => {
-          reject(err)
-        })
-    })
-  }
-
   static getTopTrack(token) {
     console.log('SpotifyService | getTopTrack')
     console.log('topTracksEndpoint:', topTracksEndpoint)

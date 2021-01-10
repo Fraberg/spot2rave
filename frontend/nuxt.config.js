@@ -14,8 +14,20 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap' }
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap',
+      },
     ],
+  },
+
+  // env
+  env: {
+    port: process.env.PORT || 3000,
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    clientBaseUrl: 'http://localhost:3000',
+    serverBaseUrl: 'http://localhost:8888/api',
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -47,7 +59,7 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: { baseURL: process.env.BASE_URL || 'http://localhost:8888' },
+  axios: { baseURL: process.env.baseURL },
 
   // Content module configuration (https://go.nuxtjs.dev/config-content)
   content: {},
@@ -56,23 +68,23 @@ export default {
   build: {
     extend(config, ctx) {
       config.module.rules.push({
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.(js|vue)$/,
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
         exclude: /(node_modules)/,
         options: {
-          fix: true
-        }
+          fix: true,
+        },
       })
-    }
+    },
   },
 
   // progress bar
   loading: { color: '#39b982' },
 
   // client ?
-  server: { port: process.env.CLIENT_PORT || 8000 },
-
-  // https://bithacker.dev/use-express-with-nuxt-js
-  serverMiddleware: [ '~/api/index.js' ],
+  server: { 
+    port: process.env.port,
+    host: "0.0.0.0",
+   },
 }
