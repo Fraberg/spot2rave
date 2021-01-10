@@ -14,7 +14,7 @@
           :index="index"
         >
           <!-- <p>{{ top.id }}</p> -->
-          <p class="top-index">{{ top.index }}</p>
+          <p class="top-index">{{ index + 1 }}</p>
           <img class="top-image" :src="top.image" />
           <p class="top-name">{{ top.name }}</p>
           <p class="top-artists">{{ top.artists }}</p>
@@ -34,35 +34,26 @@ export default {
   setup(_, context) {
     const isLoading = ref(true)
     const topTracks = ref([])
+    const accessToken = context.root.$route.query.access_token
+    // console.log('accessToken:', accessToken)
     onBeforeMount(async () => {
       console.log('onBeforeMount')
-      console.log(
-        'context.root.$route.query:',
-        context.root.$route.query.access_token
-      )
-      topTracks.value = await fetchTopTracks(
-        context.root.$route.query.access_token
-      )
+      topTracks.value = await fetchTopTracks(accessToken)
       isLoading.value = false
     })
     async function fetchTopTracks(token) {
       console.log('fetchTopTracks | token:', token)
-      const data = await SpotifyService.getTopTrack(token)
+      // const data = await SpotifyService.getTopTrack(token)
+      const data = await SpotifyService.getMock()
+      // console.log('data:', JSON.stringify(data))
       return data
     }
     return {
       isLoading,
       topTracks,
-      // $root,
       fetchTopTracks,
     }
   },
-  // mounted() {
-  //   this.fetchSpotify()
-  // },
-  // methods: {
-  //   fetchSpotify() {},
-  // },
 }
 </script>
 
@@ -101,23 +92,23 @@ export default {
 .top {
   display: flex;
   justify-content: flex-start;
-  .top-index {
-    width: 50px;
-  }
-  .top-image {
-    width: 50px;
-  }
-  .top-name {
-    width: 50px;
-  }
-  .top-artists {
-    width: 50px;
-  }
-  .top-popularity {
-    width: 50px;
-  }
-  .top-artists {
-    width: 50px;
-  }
+}
+.top-index {
+  width: auto;
+}
+.top-image {
+  width: auto;
+}
+.top-name {
+  width: auto;
+}
+.top-artists {
+  width: auto;
+}
+.top-popularity {
+  width: auto;
+}
+.top-artists {
+  width: auto;
 }
 </style>
